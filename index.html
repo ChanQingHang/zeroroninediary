@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroToNine Diary - 价值投资分享者</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            --gold-gradient: linear-gradient(45deg, #FFD700, #FFA500);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 增强的背景动画 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(78, 205, 196, 0.3) 0%, transparent 50%);
+            animation: morphing 20s ease-in-out infinite;
+            z-index: -2;
+        }
+
+        @keyframes morphing {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            33% { transform: scale(1.1) rotate(120deg); }
+            66% { transform: scale(0.9) rotate(240deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* 增强的光线效果 */
+        .light-beam {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(0deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: light-sweep 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .light-beam:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .light-beam:nth-child(2) { top: 30%; right: 25%; animation-delay: 2s; }
+        .light-beam:nth-child(3) { bottom: 20%; left: 60%; animation-delay: 4s; }
+
+        @keyframes light-sweep {
+            0%, 100% { opacity: 0; transform: translateX(-50px) rotate(45deg); }
+            50% { opacity: 1; transform: translateX(50px) rotate(45deg); }
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 100px 0;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 玻璃态背景 */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            z-index: -1;
+            box-shadow:
+                0 8px 32px rgba(31, 38, 135, 0.37),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            font-weight: bold;
+            color: white;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 4px rgba(255, 255, 255, 0.1),
+                0 0 0 8px rgba(255, 255, 255, 0.05);
+            animation: profile-float 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 增强的头像动画 */
+        @keyframes profile-float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(2deg); }
+            75% { transform: translateY(-5px) rotate(-2deg); }
+        }
+
+        .profile-img::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: profile-spin 6s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes profile-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 环绕粒子效果 */
+        .profile-particles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: orbit 10s linear infinite;
+        }
+
+        .particle:nth-child(1) { animation-delay: 0s; }
+        .particle:nth-child(2) { animation-delay: -2s; }
+        .particle:nth-child(3) { animation-delay: -4s; }
+        .particle:nth-child(4) { animation-delay: -6s; }
+        .particle:nth-child(5) { animation-delay: -8s; }
+
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif; /* New font for the title */
+            font-size: 4em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: title-glow 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            position: relative;
+        }
+
+        @keyframes title-glow {
+            from {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+                transform: scale(1);
+            }
+            to {
+                filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+                transform: scale(1.02);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .typing-effect {
+            display: inline-block;
+            border-right: 2px solid white;
+            animation: typing-cursor 1s infinite;
+        }
+
+        @keyframes typing-cursor {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* 增强的卡片设计 */
+        .mission-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 80px 50px;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .mission-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: section-shine 8s ease-in-out infinite;
+        }
+
+        @keyframes section-shine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .section-title {
+            font-size: 3em;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+            animation: underline-grow 2s ease-out;
+        }
+
+        @keyframes underline-grow {
+            0% { width: 0; }
+            100% { width: 100px; }
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for 4 columns */
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .content-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 50px 30px;
+            border-radius: 25px;
+            text-align: center;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .content-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow:
+                0 40px 80px rgba(102, 126, 234, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .content-card:hover::before {
+            opacity: 0.8;
+        }
+
+        .card-icon {
+            font-size: 4em;
+            margin-bottom: 25px;
+            display: inline-block;
+            transform: scale(1);
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        .content-card:hover .card-icon {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-description {
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 增强的社交媒体部分 */
+        .social-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 80px 50px;
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-10px) scale(1.08);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            background: var(--accent-gradient);
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-icon {
+            margin-right: 12px;
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        /* WhatsApp CTA 增强 */
+        .whatsapp-cta {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: whatsapp-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes whatsapp-pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            background: white;
+            color: #25D366;
+            padding: 25px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.3em;
+            margin-top: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        /* 增强的浮动元素 */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            animation: float-enhanced 25s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -8s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -16s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            top: 40%;
+            right: 40%;
+            animation-delay: -12s;
+        }
+
+        @keyframes float-enhanced {
+            0% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.3; }
+            25% { transform: translateY(-30px) rotate(90deg) scale(1.1); opacity: 0.6; }
+            50% { transform: translateY(-10px) rotate(180deg) scale(0.9); opacity: 0.8; }
+            75% { transform: translateY(-20px) rotate(270deg) scale(1.05); opacity: 0.4; }
+            100% { transform: translateY(0px) rotate(360deg) scale(1); opacity: 0.3; }
+        }
+
+        /* 滚动指示器 */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .scroll-progress {
+            height: 100%;
+            background: var(--accent-gradient);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .hero-section {
+                padding: 60px 0;
+            }
+
+            .mission-section, .social-section {
+                padding: 50px 25px;
+            }
+
+            .profile-img {
+                width: 150px;
+                height: 150px;
+                font-size: 3em;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* 入场动画 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in-up:nth-child(4) { animation-delay: 0.4s; } /* Added delay for the fourth card */
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <div class="light-beam"></div>
+    <div class="light-beam"></div>
+    <div class="light-beam"></div>
+
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <section class="hero-section fade-in-up">
+            <div class="profile-container">
+                <div class="profile-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                <div class="profile-img">💎</div>
+            </div>
+            <h1 class="hero-title">ZeroToNine Diary</h1>
+            <p class="subtitle">04年大学生 | 价值投资者</p>
+            <p class="subtitle">通过价值投资实现财务自由<span class="typing-effect"></span></p>
+        </section>
+
+        <section class="mission-section fade-in-up">
+            <div class="mission-content">
+                <h2 class="section-title">我的使命</h2>
+
+                <p style="font-size: 1.3em; text-align: center; color: rgba(255,255,255,0.9); line-height: 1.9; margin-bottom: 50px; font-weight: 300;">
+                    在有限的生命里，分享无限的价值。<br>
+                    《零到九日记》：记录一位大学生如何用理性投资赚到第一桶金。<br>
+                    同时也聊聊我的健康实践、旅行脚印和经历浅谈。<br>
+                    这些日记，不只是故事，也是你前行路上的指引
+                </p>
+
+                <div class="content-grid">
+                    <div class="content-card">
+                        <div class="card-icon">📈</div>
+                        <div class="card-title">投资分享</div>
+                        <p class="card-description">价值投资视角，聚焦长期成长。 分享策略、市场分析与个人实战经验。</p>
+                    </div>
+                    <div class="content-card">
+                        <div class="card-icon">💪</div>
+                        <div class="card-title">健康实践</div>
+                        <p class="card-description">结合中医智慧与现代观念， 探索身心平衡的生活方式。</p>
+                    </div>
+                    <div class="content-card">
+                        <div class="card-icon">✈️</div>
+                        <div class="card-title">旅游体验</div>
+                        <p class="card-description">走过的路、见过的人、热爱的事物。 用脚步丈量世界，用兴趣拓展视野。</p>
+                    </div>
+                    <div class="content-card">
+                        <div class="card-icon">📖</div>
+                        <div class="card-title">经历浅谈</div>
+                        <p class="card-description">分享那些走过的弯路、收获的体悟。 每段经历，都是成长的注脚。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-section fade-in-up">
+            <h2 class="section-title">关注我的社交媒体</h2>
+            <p style="font-size: 1.2em; color: rgba(255,255,255,0.8); margin-bottom: 30px; font-weight: 300;">重点内容都在小红书，其他平台也有精彩分享</p>
+
+            <div class="social-grid">
+                <a href="https://www.xiaohongshu.com/user/profile/5da064800000000001008874?xsec_token=YBRtxbcikbFEeAhg2Uu-l0hGK1eSKmQYIPbc82lEAvBy8=&xsec_source=app_share&xhsshare=CopyLink&appuid=5da064800000000001008874&apptime=1753259301&share_id=726519c7bdef4aa2b217fcb3f920dc1e" class="social-link" target="_blank">
+                    <span class="social-icon">📱</span>
+                    小红书 (主要平台)
+                </a>
+                <a href="https://www.facebook.com/share/19CtYqwpLW/?mibextid=wwXIfr" class="social-link" target="_blank">
+                    <span class="social-icon">👥</span>
+                    Facebook
+                </a>
+                <a href="https://www.instagram.com/zerotoninediary?igsh=MWUxMWkzZWNlZTI2Nw%3D%3D&utm_source=qr" class="social-link" target="_blank">
+                    <span class="social-icon">📸</span>
+                    Instagram
+                </a>
+                <a href="https://youtube.com/@zerotoninediary?si=L1wQKGUJGD3wDzYX" class="social-link" target="_blank">
+                    <span class="social-icon">🎥</span>
+                    YouTube Shorts
+                </a>
+                <a href="https://www.tiktok.com/@zerotoninediary?_t=ZS-8yGM9XXXQxk&_r=1" class="social-link" target="_blank">
+                    <span class="social-icon">🎵</span>
+                    TikTok
+                </a>
+            </div>
+        </section>
+
+        <section class="whatsapp-cta fade-in-up">
+            <h2 style="font-size: 2.5em; margin-bottom: 25px; position: relative; z-index: 2; font-weight: 800;">想要深入交流？</h2>
+            <p style="font-size: 1.3em; margin-bottom: 25px; position: relative; z-index: 2; font-weight: 300; opacity: 0.95;">
+                有投资问题或想要一对一咨询？欢迎私讯我
+            </p>
+            <a href="https://wa.link/5q5owd" class="whatsapp-btn" target="_blank">
+                <span style="margin-right: 15px; font-size: 1.5em;">💬</span>
+                WhatsApp 私讯我
+            </a>
+        </section>
+    </div>
+
+    <script>
+        // 滚动进度条
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxScroll) * 100;
+            document.getElementById('scrollProgress').style.width = progress + '%';
+        });
+
+        // 增强的视差效果
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            // Check if heroSection exists before trying to access its style
+            if (heroSection) {
+                // Adjust the parallax strength as needed. More negative value means stronger effect.
+                const rate = scrolled * -0.2;
+                heroSection.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // 3D鼠标跟随效果
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            // Floating elements parallax effect
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                const speed = (index + 1) * 0.02; // Different speeds for elements
+                const x = (mouseX - 0.5) * 100 * speed;
+                const y = (mouseY - 0.5) * 100 * speed;
+                // Get current transform to apply incremental changes
+                const currentTransform = element.style.transform || '';
+                // Use a reset mechanism or store initial position to prevent continuous drift
+                // For simplicity, directly applying here, but for complex interactions, consider GSAP or similar
+                element.style.transform = `translate(${x}px, ${y}px)`;
+            });
+
+            // Card 3D effect
+            const cards = document.querySelectorAll('.content-card, .social-link');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                // Check if mouse is over the card
+                if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                    e.clientY >= rect.top && e.clientY <= rect.bottom) {
+
+                    const cardX = e.clientX - rect.left;
+                    const cardY = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    // Calculate rotation angles
+                    const rotateX = (cardY - centerY) / 10; // Adjust divisor for sensitivity
+                    const rotateY = (cardX - centerX) / 10; // Adjust divisor for sensitivity
+
+                    card.style.transform = `perspective(1000px) rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                } else {
+                    // Reset transform when mouse leaves the card
+                    card.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
